@@ -1,0 +1,1219 @@
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #090e19;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+
+.tv-root,
+.tv-root * {
+  box-sizing: border-box;
+}
+
+.tv-root {
+  --tv-bg: #090e19;
+  --tv-surface: #111a2a;
+  --tv-surface-hover: #1a2b40;
+  --tv-line: #243147;
+  --tv-text: #eef3fc;
+  --tv-muted: #b9c6d8;
+  --tv-accent: #37c5d4;
+  --tv-accent-soft: rgba(55,197,212,.13);
+  --tv-gold: #f7d36d;
+  --tv-item-height: 120px;
+  width: 100%;
+  height: 100dvh;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--tv-text);
+  background: var(--tv-bg);
+  font: 28px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tv-root button,
+.tv-root input,
+.tv-root select {
+  font: inherit;
+}
+
+.tv-root button {
+  cursor: pointer;
+}
+
+.tv-root button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.tv-root button:focus-visible,
+.tv-root input:focus-visible,
+.tv-root select:focus-visible,
+.tv-channel:focus-visible {
+  outline: 3px solid var(--tv-accent);
+  outline-offset: -3px;
+}
+
+/* Header */
+
+.tv-header {
+  flex: 0 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 32px;
+  background: var(--tv-surface);
+  border-bottom: 1px solid var(--tv-line);
+}
+
+.tv-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--tv-accent);
+  font-size: 40px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tv-brand strong {
+  color: var(--tv-text);
+}
+
+.tv-brand span,
+
+/* Кнопка выхода */
+
+.tv-logout {
+  flex-shrink: 0;
+  padding: 12px 26px;
+
+  border: 1px solid var(--tv-line);
+  border-radius: 10px;
+
+  background: #18253a;
+  color: var(--tv-text);
+
+  font-size: 26px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.tv-logout:hover {
+  border-color: var(--tv-accent);
+  color: var(--tv-accent);
+  background: var(--tv-accent-soft);
+}
+
+.tv-logout:focus-visible {
+  outline: 3px solid var(--tv-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 820px) {
+  .tv-logout {
+    padding: 8px 14px;
+    font-size: 16px;
+  }
+}
+
+
+/* Layout */
+
+.tv-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(460px,40%);
+}
+
+.tv-player {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: #060a12;
+}
+
+.tv-screen {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+}
+
+.tv-screen video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #000;
+}
+
+.tv-overlay {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 24px;
+  text-align: center;
+  pointer-events: none;
+  color: #d1e0ef;
+  background: rgba(0,0,0,.55);
+  font-size: 28px;
+}
+
+.tv-overlay.tv-error {
+  color: #ffb5b5;
+}
+
+.tv-overlay button {
+  pointer-events: auto;
+  border: 0;
+  border-radius: 10px;
+  padding: 14px 22px;
+  background: var(--tv-accent);
+  color: #09121b;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* Expanded EPG footer */
+
+.tv-player-footer {
+  flex: 0 0 auto;
+  min-height: 280px;
+  max-height: 360px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 26px;
+  border-top: 1px solid var(--tv-line);
+  background: var(--tv-surface);
+}
+
+/* Постер текущей передачи */
+
+.tv-player-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--programme-poster, none);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 0.40;
+}
+
+/* Подложка для читаемости текста */
+
+.tv-player-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(9, 14, 25, 0.45) 0%,
+    rgba(9, 14, 25, 0.15) 50%,
+    rgba(9, 14, 25, 0.45) 100%);
+}
+
+.tv-player-footer > * {
+  position: relative;
+  z-index: 2;
+}
+
+.tv-player-details {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.tv-player-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.tv-player-channel-name,
+.tv-current strong {
+  min-width: 0;
+  font-size: 30px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tv-programme-time {
+  margin-left: auto;
+  font-size: 24px;
+  color: var(--tv-muted);
+  white-space: nowrap;
+}
+
+.tv-programme-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tv-programme-title {
+  font-size: 30px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.tv-programme-description {
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--tv-muted);
+}
+
+.tv-programme-no-data {
+  font-size: 24px;
+  color: var(--tv-muted);
+}
+
+.tv-programme-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #344154;
+}
+
+.tv-programme-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--tv-accent);
+  transition: width 1s linear;
+}
+
+.tv-programme-progress-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--tv-muted);
+  font-size: 22px;
+}
+
+.tv-live {
+  flex-shrink: 0;
+  border-radius: 5px;
+  padding: 6px 10px;
+  background: #48d9a7;
+  color: #051c14;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.tv-current {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.tv-current small {
+  flex-basis: 100%;
+  color: var(--tv-muted);
+  font-size: 24px;
+}
+
+/* Sidebar and controls */
+
+.tv-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--tv-surface);
+  border-left: 1px solid var(--tv-line);
+}
+
+
+.tv-sidebar h2 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 600;
+}
+
+.tv-sidebar h2 small {
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--tv-muted);
+}
+
+.tv-search {
+  min-width: 0;
+  margin: 8px 20px 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--tv-line);
+  border-radius: 10px;
+  outline: 0;
+  background: #1a2639;
+  color: var(--tv-text);
+  font-size: 26px !important;
+}
+
+.tv-search::placeholder {
+  color: #aab8cd;
+}
+
+.tv-search:focus {
+  border-color: var(--tv-accent);
+}
+
+.tv-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 20px 16px;
+}
+
+.tv-filters select,
+.tv-filters button {
+  min-width: 0;
+  border: 1px solid var(--tv-line);
+  border-radius: 10px;
+  padding: 13px 15px;
+  background: #18253a;
+  color: var(--tv-text);
+  font-size: 24px !important;
+}
+
+.tv-filters select {
+  flex: 1;
+}
+
+.tv-filters .is-filtered {
+  color: var(--tv-gold);
+  border-color: var(--tv-gold);
+  background: rgba(247,211,109,.08);
+}
+
+/* Virtualized channel list — must equal JS ITEM_HEIGHT (120px) */
+
+.tv-list-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
+  scrollbar-color: #566b87 transparent;
+}
+
+.tv-channel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  height: var(--tv-item-height);
+  padding: 12px 16px;
+  border-left: 4px solid transparent;
+  border-bottom: 1px solid #29394f;
+  background: transparent;
+  color: var(--tv-text);
+  cursor: pointer;
+}
+
+.tv-channel:hover {
+  background: rgba(255,255,255,.06);
+}
+
+.tv-channel.is-active {
+  background: var(--tv-accent-soft);
+  border-left-color: var(--tv-accent);
+}
+
+.tv-channel.is-active .tv-channel-name {
+  color: var(--tv-accent);
+}
+
+.tv-channel-logo,
+.tv-no-logo {
+  flex: 0 0 70px;
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #233247;
+}
+
+.tv-no-logo {
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: var(--tv-muted);
+}
+
+.tv-channel-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tv-channel-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 650;
+}
+
+.tv-channel-group {
+  margin-top: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--tv-muted);
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.tv-epg-progress {
+  width: 100%;
+  height: 6px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #344154;
+}
+
+.tv-epg-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--tv-accent);
+  transition: width 1s linear;
+}
+
+.tv-channel-favorite {
+  display: flex;
+  flex: 0 0 54px;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  padding: 4px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #8a99af;
+  font-size: 42px !important;
+}
+
+.tv-channel-favorite:hover,
+.tv-channel-favorite.is-favorite {
+  color: var(--tv-gold);
+}
+
+/* Compatibility with earlier ChannelList markup */
+
+.tv-channel-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  border: 0;
+  color: inherit;
+  background: none;
+  text-align: left;
+}
+
+.tv-channel-index {
+  flex: 0 0 40px;
+  color: var(--tv-muted);
+  text-align: right;
+  font-size: 22px;
+}
+
+.tv-channel-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tv-channel-text strong {
+  font-size: 26px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tv-channel-text small {
+  font-size: 22px;
+  color: var(--tv-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tv-star {
+  border: 0;
+  padding: 8px;
+  background: none;
+  color: #8a99af;
+  font-size: 42px !important;
+}
+
+.tv-star.starred {
+  color: var(--tv-gold);
+}
+
+.tv-message {
+  padding: 24px;
+  color: var(--tv-muted);
+  font-size: 26px;
+  line-height: 1.4;
+}
+
+.tv-error-text {
+  color: #f2a8a8;
+}
+
+.tv-epg-warning {
+  flex: 0 0 auto;
+  padding: 12px 20px;
+  color: #e5b66a;
+  background: #2a241a;
+  font-size: 22px;
+}
+
+.tv-list-viewport::-webkit-scrollbar {
+  width: 12px;
+}
+
+.tv-list-viewport::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #566b87;
+}
+
+/* Narrow PC and tablets: preserve readable text; redistribute space */
+
+@media (max-width: 1200px) {
+  .tv-layout {
+    grid-template-columns: minmax(0,1fr) minmax(390px,43%);
+  }
+  .tv-header {
+    padding: 0 20px;
+  }
+  .tv-player-footer {
+    padding: 16px 18px;
+  }
+}
+
+/* Small screens are physically close, so keep them separate from TV dimensions */
+
+@media (max-width: 820px) {
+  .tv-root {
+    --tv-item-height: 120px;
+    font-size: 18px;
+  }
+  .tv-header {
+    flex: 0 0 56px;
+    padding: 0 12px;
+  }
+  .tv-brand {
+    gap: 8px;
+    font-size: 22px;
+  }
+  .tv-brand span {
+    display: none;
+  }
+  .tv-counter {
+    font-size: 15px;
+  }
+  .tv-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(260px,48%) minmax(0,1fr);
+  }
+  .tv-sidebar {
+    border-left: 0;
+    border-top: 1px solid var(--tv-line);
+  }
+  .tv-player-footer {
+    min-height: 148px;
+    max-height: 210px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .tv-player-heading {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .tv-player-channel-name {
+    font-size: 19px;
+  }
+  .tv-programme-title {
+    font-size: 20px;
+  }
+  .tv-programme-time,
+  .tv-programme-description,
+  .tv-programme-no-data {
+    font-size: 15px;
+  }
+  .tv-programme-description {
+    max-height: 64px;
+  }
+  .tv-programme-progress-info {
+    font-size: 14px;
+  }
+  .tv-live {
+    font-size: 13px;
+    padding: 4px 6px;
+  }
+  .tv-sidebar h2 {
+    font-size: 24px;
+  }
+  .tv-sidebar h2 small {
+    font-size: 16px;
+  }
+  .tv-search {
+    margin: 5px 12px 10px;
+    padding: 9px 11px;
+    font-size: 18px !important;
+  }
+  .tv-filters {
+    gap: 6px;
+    padding: 0 12px 10px;
+  }
+  .tv-filters select,
+  .tv-filters button {
+    padding: 8px;
+    font-size: 16px !important;
+  }
+  .tv-channel {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+  .tv-channel-logo,
+  .tv-no-logo {
+    flex-basis: 54px;
+    width: 54px;
+    height: 54px;
+  }
+  .tv-channel-name {
+    font-size: 19px;
+  }
+  .tv-channel-group {
+    font-size: 16px;
+    margin-top: 4px;
+  }
+  .tv-channel-favorite {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+    font-size: 32px !important;
+  }
+  .tv-message {
+    font-size: 18px;
+  }
+  .tv-epg-warning {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 420px) {
+  .tv-counter {
+    font-size: 12px;
+  }
+  .tv-player-footer {
+    max-height: 190px;
+  }
+  .tv-programme-time {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-root *,
+  .tv-root *::before,
+  .tv-root *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.tv-player-engine {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border-radius: 7px;
+  background: rgba(9, 14, 25, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #eef3fc;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.7s ease,
+     visibility 0.7s ease;
+}
+
+.tv-player-engine.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 820px) {
+  .tv-player-engine {
+    top: 10px;
+    left: 10px;
+    padding: 5px 9px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-player-engine {
+    transition: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+.player-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  box-sizing: border-box;
+  z-index: 10;
+  pointer-events: none;
+  animation: player-spin 0.8s linear infinite;
+}
+
+@keyframes player-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.tv-screen {
+  position: relative;
+}
+
+.tv-screen .tv-player-buttons {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 20;
+}
+
+.tv-screen .tv-player-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tv-screen .tv-player-buttons button:hover,
+.tv-screen .tv-player-buttons button:focus-visible {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.tv-screen .tv-player-buttons button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+
+
+/* =========================================
+   Скрытие полос прокрутки в панели EPG
+   ========================================= */
+
+.tv-player-details,
+.tv-programme-description {
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Старые Edge и IE */
+  -ms-overflow-style: none;
+}
+
+/* Chrome, Safari, WebKit, Smart TV */
+.tv-player-details::-webkit-scrollbar,
+.tv-programme-description::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Логотип TVAplay в заголовке */
+.tv-brand-logo {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+@media (max-width: 820px) {
+  .tv-brand-logo {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+
+
+/* =========================================
+   TVAPLAY — Login
+   ========================================= */
+
+.login-root {
+  --tv-bg: #090e19;
+  --tv-surface: #111a2a;
+  --tv-line: #243147;
+  --tv-text: #eef3fc;
+  --tv-muted: #b9c6d8;
+  --tv-accent: #37c5d4;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100dvh;
+  padding: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--tv-bg);
+  color: var(--tv-text);
+
+  font-family: system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.login-root * {
+  box-sizing: border-box;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 460px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+
+  text-align: center;
+}
+
+.login-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.login-form h1 {
+  margin: 0;
+  color: var(--tv-text);
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.login-description,
+.login-code-hint {
+  margin: 0;
+  color: var(--tv-muted);
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.login-input {
+  width: 100%;
+  height: 70px;
+  padding: 12px 20px;
+
+  border: 2px solid var(--tv-line);
+  border-radius: 12px;
+
+  background: #1a2639;
+  color: var(--tv-text);
+
+  font: inherit;
+  font-size: 30px;
+  text-align: center;
+  letter-spacing: 1px;
+
+  outline: none;
+}
+
+.login-input:focus {
+  border-color: var(--tv-accent);
+}
+
+.login-input:focus-visible,
+.login-button:focus-visible {
+  outline: 3px solid var(--tv-accent);
+  outline-offset: 3px;
+}
+
+.login-input:disabled {
+  opacity: .55;
+  cursor: default;
+}
+
+.login-input::placeholder {
+  color: #8190a6;
+}
+
+.login-button {
+  width: 100%;
+  min-height: 68px;
+  padding: 14px 20px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: var(--tv-accent);
+  color: #09121b;
+
+  font: inherit;
+  font-size: 26px;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.login-button:hover:not(:disabled) {
+  background: #59dbe7;
+}
+
+.login-button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.login-code {
+  font-size: 34px;
+  font-weight: 650;
+  letter-spacing: 12px;
+}
+
+.login-error {
+  margin: 0;
+  color: #ffb5b5;
+  font-size: 20px;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .login-root {
+    padding: 20px;
+  }
+
+  .login-form {
+    max-width: 360px;
+    gap: 18px;
+  }
+
+  .login-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .login-form h1 {
+    font-size: 30px;
+  }
+
+  .login-description,
+  .login-code-hint {
+    font-size: 16px;
+  }
+
+  .login-input {
+    height: 56px;
+    font-size: 23px;
+  }
+
+  .login-button {
+    min-height: 54px;
+    font-size: 19px;
+  }
+
+  .login-code {
+    font-size: 28px;
+    letter-spacing: 8px;
+  }
+
+  .login-error {
+    font-size: 15px;
+  }
+}
+
+
+.login-input-error,
+.login-input-error:focus {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.15);
+}
+
+.login-error {
+  margin: 0;
+  color: #ff6b6b;
+  font-size: 20px;
+  text-align: center;
+}
+
+
+
+
+/* Неверный код оператора или SMS */
+
+.login-input-error,
+.login-input-error:focus,
+.login-input-error:disabled {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, .15);
+}
+
+/* Сообщение о блокировке */
+
+.login-retry-message {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #ff6b6b;
+  font-size: 20px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.login-retry-message span {
+  color: var(--tv-muted);
+}
+
+.login-retry-message strong {
+  color: var(--tv-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Заблокированный код остаётся читаемым */
+
+.login-code.login-input-error:disabled {
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .login-retry-message {
+    font-size: 16px;
+  }
+}
+
+
+/* ErrorPage */
+
+.error-page-message {
+  max-width: 600px;
+  text-align: center;
+  color: var(--tv-text);
+  font-weight: 600;
+}
+
+.error-page-address {
+  margin: 0;
+  color: var(--tv-muted);
+  font-size: 22px;
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .error-page-address {
+    font-size: 16px;
+  }
+}
