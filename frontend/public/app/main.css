@@ -1,0 +1,1224 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding:0px;
+  min-height: 100%;
+}
+
+body {
+  background: #090e19;
+}
+
+#root {
+    min-height: 100%;
+    min-height: 100vh;
+}
+
+
+.tv-root,
+.tv-root * {
+  box-sizing: border-box;
+}
+
+
+.tv-root {
+    width: 100%;
+    height: 100vh;
+    min-height: 400px;
+
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-direction: column;
+    flex-direction: column;
+
+    position: relative;
+    overflow: hidden;
+
+    color: #eef3fc;
+    background: #090e19;
+
+    font-family: Arial, sans-serif;
+    font-size: 38px;
+    line-height: 1.2;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+.tv-root button,
+.tv-root input,
+.tv-root select {
+  font: inherit;
+}
+
+.tv-root button {
+  cursor: pointer;
+}
+
+.tv-root button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.tv-root button:focus,
+.tv-root input:focus,
+.tv-root select:focus,
+.tv-channel:focus {
+    outline: 3px solid #37c5d4;
+    outline-offset: -3px;
+}
+
+
+/* ███████╗ ██████╗██████╗ ███████╗███████╗███╗   ██╗
+  ██╔════╝██╔════╝██╔══██╗██╔════╝██╔════╝████╗  ██║
+  ███████╗██║     ██████╔╝█████╗  █████╗  ██╔██╗ ██║
+  ╚════██║██║     ██╔══██╗██╔══╝  ██╔══╝  ██║╚██╗██║
+  ███████║╚██████╗██║  ██║███████╗███████╗██║ ╚████║
+  ╚══════╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝
+                                                    */
+
+html.tv-small-screen .tv-root {
+    font-size: 28px;
+}
+
+html.tv-small-screen .tv-snackbar {
+    font-size: 32px;
+}
+
+
+
+
+/* ███████╗███╗   ██╗ █████╗  ██████╗██╗  ██╗██████╗  █████╗ ██████╗ 
+  ██╔════╝████╗  ██║██╔══██╗██╔════╝██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+  ███████╗██╔██╗ ██║███████║██║     █████╔╝ ██████╔╝███████║██████╔╝
+  ╚════██║██║╚██╗██║██╔══██║██║     ██╔═██╗ ██╔══██╗██╔══██║██╔══██╗
+  ███████║██║ ╚████║██║  ██║╚██████╗██║  ██╗██████╔╝██║  ██║██║  ██║
+  ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+                                                                    */
+
+#tv-snackbar-container {
+    position: fixed;
+    z-index: 99999;
+
+    top: 20px;
+    left: 50%;
+
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+
+    width: 80%;
+    text-align: center;
+
+    pointer-events: none;
+}
+
+/* Individual Snackbar */
+
+.tv-snackbar {
+    display: block;
+    position: relative;
+
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto 10px auto;
+    padding: 14px 24px;
+
+    border-radius: 8px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 48px;
+    line-height: 1.3;
+    word-wrap: break-word;
+
+    pointer-events: none;
+}
+
+.tv-snackbar-default {
+    background: #414b5e;
+    color: #eef3fc;
+}
+
+.tv-snackbar-primary {
+    background: #37c5d4;
+    color: #09131c;
+}
+
+.tv-snackbar-warning {
+    background: #f4c95d;
+    color: #24200c;
+}
+
+.tv-snackbar-error {
+    background: #d94d56;
+    color: #ffffff;
+}
+
+.tv-snackbar-success {
+    background: #2e9d63;
+    color: #ffffff;
+}
+
+/* ██████╗  █████╗  ██████╗ ███████╗███████╗
+   ██╔══██╗██╔══██╗██╔════╝ ██╔════╝██╔════╝
+   ██████╔╝███████║██║  ███╗█████╗  ███████╗
+   ██╔═══╝ ██╔══██║██║   ██║██╔══╝  ╚════██║
+   ██║     ██║  ██║╚██████╔╝███████╗███████║
+   ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝
+                                            */
+/* Pages: navigation and content */
+
+.tv-header {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding: 20px 28px;
+    background: #121d2c;
+    position: relative;
+}
+
+.tv-brand {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.tv-brand-logo {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin-right: 12px;
+    object-fit: contain;
+}
+
+.tv-brand-title {
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+#server-clock {
+    font-size: 32px;
+    font-weight: bold;
+    color: #aaaaab;
+    line-height: 36px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+
+.tv-nav {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-align-items: center;
+    align-items: center;
+
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+
+.tv-nav.tv-nav-hidden {
+    display: none;
+}
+
+.tv-nav-button,
+.tv-actions button,
+.tv-page > button {
+    background: #243147;
+    color: #eef3fc;
+    border: 0;
+    padding: 5px 15px;
+    margin: 0 12px 12px 0;
+    border-radius: 6px;
+}
+
+
+.tv-nav-button {
+    margin: 0 6px;
+    white-space: nowrap;
+}
+
+.tv-nav-active {
+    background: #37c5d4;
+    color: #09131c;
+}
+
+.tv-page {
+    -webkit-flex: 1;
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    overflow: auto;
+    padding: 24px 32px;
+}
+
+.tv-page h1 {
+    font-size: 1.2em;
+    margin: 0 0 20px;
+}
+
+#device-info {
+    margin-bottom: 24px;
+}
+
+/* Фокус пульта */
+
+.tv-nav-button:focus,
+.tv-actions button:focus,
+.tv-page button:focus,
+.tv-page a:focus,
+.tv-page [tabindex]:focus {
+    outline: 3px solid #ffe082;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #111b2a;
+}
+
+/*  ██╗      ██████╗  ██████╗ ██╗███╗   ██╗
+    ██║     ██╔═══██╗██╔════╝ ██║████╗  ██║
+    ██║     ██║   ██║██║  ███╗██║██╔██╗ ██║
+    ██║     ██║   ██║██║   ██║██║██║╚██╗██║
+    ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║
+    ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝
+                                            */
+.tv-login-page {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    width: 420px;
+    max-width: 85%;
+
+    text-align: center;
+}
+
+.tv-login-form {
+    width: 100%;
+    margin: 0;
+}
+
+.tv-login-form h1 {
+    font-size: 30px;
+    margin: 0 0 20px;
+}
+
+.tv-login-form p {
+    color: #aebfd1;
+    font-size: 26px;
+    margin-bottom: 24px;
+}
+
+.tv-login-phone {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 18px;
+
+    background: #243147;
+    color: #ffffff;
+    border: 2px solid #3a4961;
+    border-radius: 8px;
+
+    font-size: 28px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.tv-login-submit {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 20px;
+    padding: 18px;
+
+    background: #37c5d4;
+    color: #09131c;
+    border: 0;
+    border-radius: 8px;
+
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tv-login-submit:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.tv-login-phone:focus,
+.tv-login-submit:focus {
+    outline: 3px solid #ffe082;
+    outline-offset: 4px;
+}                                        
+
+.tv-login-code {
+    display: block;
+    box-sizing: border-box;
+    width: 220px;
+    margin: 20px auto 0;
+    padding: 18px;
+
+    background: #243147;
+    color: #ffffff;
+    border: 2px solid #3a4961;
+    border-radius: 8px;
+
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 10px;
+}
+
+.tv-login-code:focus {
+    outline: 3px solid #ffe082;
+    outline-offset: 4px;
+}
+
+.tv-login-phone:disabled,
+.tv-login-code:disabled {
+    opacity: 0.65;
+}
+
+.tv-login-phone.tv-login-phone-invalid,
+.tv-login-phone.tv-login-phone-invalid:focus {
+    border: 2px solid #e53935;
+    box-shadow: 0 0 0 1px #e53935;
+    outline: none;
+}
+
+/* UID и версия в нижних углах экрана */
+
+.tv-login-footer {
+    position: fixed;
+
+    left: 24px;
+    right: 24px;
+    bottom: 16px;
+
+    width: auto;
+    margin: 0;
+    padding: 0;
+
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    line-height: 26px;
+
+    color: #808895;
+    white-space: nowrap;
+    text-align: left;
+
+    pointer-events: none;
+    z-index: 100;
+}
+
+#tv-login-uid {
+    float: left;
+}
+
+#tv-login-version {
+    float: right;
+}
+
+.tv-login-footer:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+
+
+
+
+/*
+███████╗███████╗██████╗ ██╗   ██╗██╗ ██████╗███████╗
+██╔════╝██╔════╝██╔══██╗██║   ██║██║██╔════╝██╔════╝
+███████╗█████╗  ██████╔╝██║   ██║██║██║     █████╗  
+╚════██║██╔══╝  ██╔══██╗╚██╗ ██╔╝██║██║     ██╔══╝  
+███████║███████╗██║  ██║ ╚████╔╝ ██║╚██████╗███████╗
+╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝
+                                                     */
+
+.tv-service {
+    display: -webkit-flex;
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.tv-service-menu {
+    width: 340px;
+    min-width: 340px;
+
+    padding: 16px;
+    margin-right: 24px;
+
+    background: #121d2c;
+    border-radius: 8px;
+}
+
+.tv-service-menu-button {
+    display: block;
+    width: 100%;
+
+    margin: 0 0 12px 0;
+    padding: 18px 16px;
+
+    background: #243147;
+    color: #eef3fc;
+    border: 0;
+    border-radius: 6px;
+
+    text-align: left;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.tv-service-menu-active {
+    background: #37c5d4;
+    color: #09131c;
+}
+
+.tv-service-content {
+    -webkit-flex: 1;
+    flex: 1;
+
+    min-width: 0;
+    overflow: auto;
+
+    padding: 24px 32px;
+
+    background: #121d2c;
+    border-radius: 8px;
+}
+
+.tv-service-content h1 {
+    margin: 0 0 28px;
+    font-size: 36px;
+}
+
+.tv-service-content h2 {
+    margin: 32px 0 16px;
+    font-size: 30px;
+}
+
+.tv-service-info-row {
+    padding: 16px 0;
+    border-bottom: 1px solid #243147;
+    word-wrap: break-word;
+}
+
+.tv-service-info-label {
+    margin-bottom: 8px;
+    color: #37c5d4;
+    font-size: 24px;
+}
+
+.tv-service-info-value {
+    color: #eef3fc;
+    font-size: 28px;
+}
+
+.tv-service-note {
+    color: #aebfd1;
+    font-size: 26px;
+    line-height: 1.4;
+}
+
+/* Service settings: native select compatible with older webOS. */
+.tv-service-language-select {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    background: #243147;
+    color: #eef3fc;
+    border: 1px solid #456079;
+    border-radius: 6px;
+    font-size: 26px;
+}
+
+.tv-service-language-select:focus {
+    outline: 3px solid #ffe082;
+    outline-offset: 3px;
+}
+
+html.tv-small-screen .tv-service-language-select {
+    font-size: 22px;
+    padding: 12px 14px;
+}
+
+.tv-service-exit-button {
+    margin-top: 24px;
+    padding: 18px 28px;
+
+    background: #d94d56;
+    color: #ffffff;
+    border: 0;
+    border-radius: 6px;
+}
+
+/* Remote control focus */
+
+.tv-service-menu-button:focus,
+.tv-service-exit-button:focus {
+    outline: 3px solid #ffe082;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #111b2a;
+}
+
+/* Small TV screens */
+
+html.tv-small-screen .tv-service-menu {
+    width: 280px;
+    min-width: 280px;
+}
+
+html.tv-small-screen .tv-service-menu-button {
+    font-size: 22px;
+    padding: 14px;
+}
+
+html.tv-small-screen .tv-service-content {
+    padding: 16px 20px;
+}
+
+
+
+
+
+/* SERVICE: Devices */
+
+.tv-service-devices-summary {
+    margin: 0 0 24px;
+    color: #aebfd1;
+    font-size: 26px;
+}
+
+.tv-service-devices {
+    width: 100%;
+}
+
+.tv-device-card {
+    padding: 22px 26px;
+    margin-bottom: 18px;
+
+    background: #1b2a3f;
+    border: 1px solid #34465e;
+    border-radius: 8px;
+}
+
+/* Заголовок карточки устройства */
+.tv-device-header {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-align-items: center;
+    align-items: center;
+
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 18px;
+}
+
+.tv-device-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #eef3fc;
+    word-wrap: break-word;
+}
+
+.tv-device-current {
+    display: inline-block;
+    margin-left: 18px;
+    padding: 7px 12px;
+
+    background: #2e9d63;
+    color: #ffffff;
+
+    border-radius: 6px;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+/* Круглый номер устройства справа */
+.tv-device-number {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-align-items: center;
+    align-items: center;
+
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
+
+    margin-left: auto;
+
+    border: 2px solid #37c5d4;
+    border-radius: 50%;
+
+    background: #243147;
+    color: #eef3fc;
+
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+}
+
+.tv-device-time-ago {
+    font-style: italic;
+    color: #aebfd1;
+    white-space: nowrap;
+}
+
+
+/* Строка времени входа и удаления сессии */
+
+.tv-device-login-row {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+
+    padding-right: 0;
+}
+
+.tv-device-login-info {
+    -webkit-flex: 1;
+    flex: 1;
+
+    min-width: 0;
+    padding-right: 20px;
+}
+
+.tv-device-login-row .tv-service-info-value {
+    padding-right: 20px;
+}
+
+.tv-device-delete-button {
+    display: block;
+
+    margin: 0 0 2px 16px;
+    padding: 12px 22px;
+
+    background: #d94d56;
+    color: #ffffff;
+
+    border: 0;
+    border-radius: 6px;
+
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+}
+
+.tv-device-delete-button:focus {
+    outline: 3px solid #ffe082;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #111b2a;
+}
+
+.tv-device-delete-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+
+
+
+/* Более компактные строки сведений */
+.tv-device-card .tv-service-info-row {
+    padding: 10px 0;
+}
+
+.tv-device-card .tv-service-info-label {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.tv-device-card .tv-service-info-value {
+    font-size: 24px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+
+
+/*
+███████╗██████╗ ███████╗███████╗██████╗ 
+██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗
+███████╗██████╔╝█████╗  █████╗  ██║  ██║
+╚════██║██╔═══╝ ██╔══╝  ██╔══╝  ██║  ██║
+███████║██║     ███████╗███████╗██████╔╝
+╚══════╝╚═╝     ╚══════╝╚══════╝╚═════╝ 
+                                         */
+
+
+/* SERVICE: Speed Test */
+
+.tv-speed-result {
+    margin-top: 36px;
+    color: #37c5d4;
+    font-size: 96px;
+    font-weight: bold;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.tv-speed-unit {
+    color: #aebfd1;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tv-speed-progress {
+    width: 100%;
+    height: 14px;
+    overflow: hidden;
+
+    background: #243147;
+    border-radius: 10px;
+}
+
+.tv-speed-progress-bar {
+    width: 0;
+    height: 100%;
+
+    background: #37c5d4;
+    border-radius: 10px;
+}
+
+.tv-speed-status {
+    margin: 22px 0;
+    color: #aebfd1;
+    font-size: 24px;
+    text-align: center;
+}
+
+.tv-speed-button {
+    display: block;
+    margin: 28px auto;
+    padding: 18px 36px;
+
+    background: #37c5d4;
+    color: #09131c;
+
+    border: 0;
+    border-radius: 8px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+html.tv-small-screen .tv-speed-result {
+    font-size: 64px;
+}
+
+html.tv-small-screen .tv-speed-unit {
+    font-size: 24px;
+}
+
+
+/* 
+██████╗ ██╗      █████╗ ██╗   ██╗███████╗██████╗ 
+██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗
+██████╔╝██║     ███████║ ╚████╔╝ █████╗  ██████╔╝
+██╔═══╝ ██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗
+██║     ███████╗██║  ██║   ██║   ███████╗██║  ██║
+╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
+                                                  */
+
+/* PLAYER PAGE */
+
+.tv-player-page {
+    display: -webkit-flex;
+    display: flex;
+
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    bottom: 24px;
+    left: 32px;
+
+    width: auto;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.tv-player-main {
+    -webkit-flex: 1;
+    flex: 1;
+
+    min-width: 0;
+    padding-right: 24px;
+}
+
+.tv-player-screen {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    background: #000000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tv-player-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    background: #000000;
+    object-fit: contain;
+}
+
+.tv-player-channel-title {
+    margin-top: 20px;
+    font-size: 34px;
+    font-weight: bold;
+    color: #eef3fc;
+}
+
+.tv-player-status {
+    margin-top: 10px;
+    font-size: 24px;
+    color: #aebfd1;
+}
+
+.tv-player-sidebar {
+    position: relative;
+    width: 650px;
+    min-width: 650px;
+    height: 100%;
+
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-direction: column;
+    flex-direction: column;
+
+    min-height: 0;
+    padding: 18px;
+    overflow: hidden;
+
+    background: #121d2c;
+    border-radius: 8px;
+}
+
+.tv-channel-heading {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.tv-channel-count {
+    color: #37c5d4;
+}
+
+.tv-channel-list {
+    position: absolute;
+    top: 72px;
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+
+    display: block;
+    width: auto;
+    height: auto;
+    min-height: 0;
+
+    -webkit-flex: none;
+    flex: none;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.tv-channel-button {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-align-items: center;
+    align-items: center;
+
+    width: 100%;
+    margin: 0 0 8px 0;
+    padding: 14px 12px;
+
+    background: #243147;
+    color: #eef3fc;
+
+    border: 0;
+    border-radius: 6px;
+    text-align: left;
+
+    font-size: 24px;
+}
+
+.tv-channel-number {
+    display: inline-block;
+    width: 46px;
+    min-width: 46px;
+
+    color: #9cacc3;
+    font-size: 21px;
+}
+
+.tv-channel-name {
+    -webkit-flex: 1;
+    flex: 1;
+
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tv-channel-playing {
+    background: #175b64;
+    color: #ffffff;
+}
+
+.tv-channel-button:focus {
+    background: #37c5d4;
+    color: #09131c;
+
+    outline: 3px solid #ffe082;
+    outline-offset: -3px;
+}
+
+.tv-channel-button:focus .tv-channel-number {
+    color: #09131c;
+}
+
+.tv-player-message {
+    font-size: 24px;
+    color: #aebfd1;
+}
+
+html.tv-small-screen .tv-player-sidebar {
+    width: 400px;
+    min-width: 400px;
+}
+
+html.tv-small-screen .tv-channel-button {
+    font-size: 20px;
+    padding: 10px;
+}
+
+.tv-channel-logo {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-align-items: center;
+    align-items: center;
+
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    width: 54px;
+    min-width: 54px;
+    height: 42px;
+
+    margin-right: 14px;
+}
+
+.tv-channel-logo img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+
+
+/* EPG: название и прогресс текущей передачи */
+.tv-channel-details {
+    display: block;
+    -webkit-flex: 1 1 0%;
+    flex: 1 1 0%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tv-channel-details .tv-channel-name {
+    display: block;
+    width: 100%;
+}
+
+.tv-channel-programme {
+    display: block;
+    width: 100%;
+    color: #b9c9df;
+    font-size: 0.85em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tv-channel-epg-progress {
+    display: block;
+    width: 100%;
+    height: 4px;
+    margin-top: 7px;
+    background: #465972;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.tv-channel-epg-progress-bar {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: #37c5d4;
+}
+
+/* Активно воспроизводимый канал */
+.tv-channel-playing .tv-channel-programme {
+    color: #e2f5f5;
+}
+
+/* Фокус пульта: светлый фон требует тёмного текста */
+.tv-channel-button:focus .tv-channel-programme {
+    color: #163941;
+}
+
+.tv-channel-button:focus .tv-channel-epg-progress {
+    background: #8bcbd0;
+}
+
+.tv-channel-button:focus .tv-channel-epg-progress-bar {
+    background: #0c4851;
+}
+
+
+
+
+
+
+
+/* 
+██╗      ██████╗  █████╗ ██████╗ ███████╗██████╗ 
+██║     ██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
+██║     ██║   ██║███████║██║  ██║█████╗  ██████╔╝
+██║     ██║   ██║██╔══██║██║  ██║██╔══╝  ██╔══██╗
+███████╗╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║
+╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝
+                                                  */
+
+/* UNIVERSAL LOADER */
+
+.tv-loader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 10;
+
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-direction: column;
+    flex-direction: column;
+
+    -webkit-align-items: center;
+    align-items: center;
+
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+    pointer-events: none;
+}
+
+.tv-loader-spinner {
+    width: 64px;
+    height: 64px;
+
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #37c5d4;
+    border-radius: 50%;
+
+    -webkit-animation: tv-loader-spin 0.9s linear infinite;
+    animation: tv-loader-spin 0.9s linear infinite;
+}
+
+.tv-loader-text {
+    margin-top: 24px;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}
+
+@-webkit-keyframes tv-loader-spin {
+    from { -webkit-transform: rotate(0deg); }
+    to   { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes tv-loader-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+html.tv-small-screen .tv-loader-spinner {
+    width: 48px;
+    height: 48px;
+    border-width: 5px;
+}
+
+html.tv-small-screen .tv-loader-text {
+    font-size: 22px;
+}
