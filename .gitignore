@@ -1,0 +1,6 @@
+build/
+frontend/node_modules/
+tvaplay
+config.go
+playlist.m3u
+geoip.mmdb
