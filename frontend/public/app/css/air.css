@@ -1,0 +1,2353 @@
+/* TVAPLAY - AIR / Evening Sky
+   Dark sky blue theme, compatible with legacy Smart TV browsers.
+   Layout, selectors and sizing preserved from original CSS.
+*/
+
+/* ==========================================================================
+   01. BASE / RESET
+   ========================================================================== */
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0px;
+    min-height: 100%;
+}
+
+body {
+    background: #0B1729;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.tv-root,h1,h2,h3 {
+    font-family: Arial, sans-serif;
+    font-size: 38px;
+    line-height: 1.2;
+}
+
+.tv-root,
+.tv-root * {
+    box-sizing: border-box;
+}
+
+.tv-root {
+    width: 100%;
+    height: 100vh;
+    min-height: 400px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    color: #F0F7FF;
+    background: #0B1729;
+    -webkit-font-smoothing: antialiased;
+}
+
+.tv-root button,
+.tv-root input,
+.tv-root select {
+    font: inherit;
+}
+
+.tv-root button {
+    cursor: pointer;
+}
+
+.tv-root button:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.tv-root button:focus,
+.tv-root input:focus,
+.tv-root select:focus,
+.tv-channel:focus {
+    outline: 3px solid #92D2FF;
+    outline-offset: -3px;
+}
+
+
+/* ==========================================================================
+   02. RESPONSIVE GLOBAL
+   ========================================================================== */
+
+html.tv-small-screen .tv-root {
+    font-size: 28px;
+}
+
+html.tv-small-screen .tv-snackbar {
+    font-size: 32px;
+}
+
+
+/* ==========================================================================
+   03. SNACKBAR
+   ========================================================================== */
+
+#tv-snackbar-container {
+    position: fixed;
+    z-index: 99999;
+    top: 20px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+    pointer-events: none;
+}
+
+.tv-snackbar {
+    display: block;
+    position: relative;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto 10px auto;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 48px;
+    line-height: 1.3;
+    word-wrap: break-word;
+    pointer-events: none;
+}
+
+.tv-snackbar-default {
+    background: #405A78;
+    color: #F0F7FF;
+}
+
+.tv-snackbar-primary {
+    background: #92D2FF;
+    color: #0C2136;
+}
+
+.tv-snackbar-warning {
+    background: #FFD791;
+    color: #3D2E16;
+}
+
+.tv-snackbar-error {
+    background: #CE6477;
+    color: #ffffff;
+}
+
+.tv-snackbar-success {
+    background: #398E78;
+    color: #ffffff;
+}
+
+
+/* ==========================================================================
+   04. NAVIGATION / HEADER / PAGE
+   ========================================================================== */
+
+.tv-header {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding: 20px 28px;
+    background: #172B45;
+    position: relative;
+}
+
+.tv-brand {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.tv-brand-logo {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin-right: 12px;
+    object-fit: contain;
+}
+
+.tv-brand-title {
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+#server-clock {
+    font-size: 32px;
+    font-weight: bold;
+    color: #A9BED4;
+    line-height: 36px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.tv-nav {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+
+.tv-nav.tv-nav-hidden {
+    display: none;
+}
+
+.tv-nav-button,
+.tv-actions button,
+.tv-page > button {
+    background: #294363;
+    color: #F0F7FF;
+    border: 0;
+    padding: 5px 15px;
+    margin: 0 12px 12px 0;
+    border-radius: 6px;
+}
+
+.tv-nav-button {
+    margin: 0 6px;
+    white-space: nowrap;
+}
+
+.tv-nav-active {
+    background: #92D2FF;
+    color: #0C2136;
+}
+
+.tv-page {
+    -webkit-flex: 1;
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    overflow: auto;
+    padding: 24px 32px;
+}
+
+.tv-page h1 {
+    font-size: 1.2em;
+    margin: 0 0 20px;
+}
+
+#device-info {
+    margin-bottom: 24px;
+}
+
+.tv-nav-button:focus,
+.tv-actions button:focus,
+.tv-page button:focus,
+.tv-page a:focus,
+.tv-page [tabindex]:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #10233B;
+}
+
+
+/* ==========================================================================
+   05. LOGIN / AUTHENTICATION
+   ========================================================================== */
+
+.tv-login-page {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 420px;
+    max-width: 85%;
+    text-align: center;
+}
+
+.tv-login-form {
+    width: 100%;
+    margin: 0;
+}
+
+.tv-login-form h1 {
+    font-size: 30px;
+    margin: 0 0 20px;
+}
+
+.tv-login-form p {
+    color: #B7CADF;
+    font-size: 26px;
+    margin-bottom: 24px;
+}
+
+.tv-login-phone {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 18px;
+    background: #294363;
+    color: #ffffff;
+    border: 2px solid #446586;
+    border-radius: 8px;
+    font-size: 28px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.tv-login-submit {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 20px;
+    padding: 18px;
+    background: #92D2FF;
+    color: #0C2136;
+    border: 0;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tv-login-submit:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.tv-login-phone:focus,
+.tv-login-submit:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 4px;
+}
+
+.tv-login-code {
+    display: block;
+    box-sizing: border-box;
+    width: 220px;
+    margin: 20px auto 0;
+    padding: 18px;
+    background: #294363;
+    color: #ffffff;
+    border: 2px solid #446586;
+    border-radius: 8px;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 10px;
+}
+
+.tv-login-code:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 4px;
+}
+
+.tv-login-phone:disabled,
+.tv-login-code:disabled {
+    opacity: 0.65;
+}
+
+.tv-login-phone.tv-login-phone-invalid,
+.tv-login-phone.tv-login-phone-invalid:focus {
+    border: 2px solid #E4697B;
+    box-shadow: 0 0 0 1px #E4697B;
+    outline: none;
+}
+
+.tv-login-footer {
+    position: fixed;
+    left: 24px;
+    right: 24px;
+    bottom: 16px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    line-height: 26px;
+    color: #8FA8C1;
+    white-space: nowrap;
+    text-align: left;
+    pointer-events: none;
+    z-index: 100;
+}
+
+#tv-login-uid {
+    float: left;
+}
+
+#tv-login-version {
+    float: right;
+}
+
+.tv-login-footer:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+/* ==========================================================================
+   06. SERVICE / LAYOUT AND MENU
+   ========================================================================== */
+
+.tv-service {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.tv-service-menu {
+    width: 340px;
+    min-width: 340px;
+    padding: 16px;
+    margin-right: 24px;
+    background: #172B45;
+    border-radius: 8px;
+}
+
+.tv-service-menu-button {
+    display: block;
+    width: 100%;
+    margin: 0 0 12px 0;
+    padding: 18px 16px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 0;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.tv-service-menu-active {
+    background: #92D2FF;
+    color: #0C2136;
+}
+
+.tv-service-content {
+    -webkit-flex: 1;
+    flex: 1;
+    min-width: 0;
+    overflow: auto;
+    padding: 24px 32px;
+    background: #172B45;
+    border-radius: 8px;
+}
+
+.tv-service-content h1 {
+    margin: 0 0 28px;
+    font-size: 36px;
+}
+
+.tv-service-content h2 {
+    margin: 32px 0 16px;
+    font-size: 30px;
+}
+
+.tv-service-info-row {
+    padding: 16px 0;
+    border-bottom: 1px solid #294363;
+    word-wrap: break-word;
+}
+
+.tv-service-info-label {
+    margin-bottom: 8px;
+    color: #92D2FF;
+    font-size: 24px;
+}
+
+.tv-service-info-value {
+    color: #F0F7FF;
+    font-size: 28px;
+}
+
+.tv-service-note {
+    color: #B7CADF;
+    font-size: 26px;
+    line-height: 1.4;
+}
+
+.tv-service-language-select {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 1px solid #577898;
+    border-radius: 6px;
+    font-size: 26px;
+}
+
+.tv-service-language-select:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+}
+
+html.tv-small-screen .tv-service-language-select {
+    font-size: 22px;
+    padding: 12px 14px;
+}
+
+.tv-service-menu-button:focus,
+.tv-service-exit-button:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #10233B;
+}
+
+html.tv-small-screen .tv-service-menu {
+    width: 280px;
+    min-width: 280px;
+}
+
+html.tv-small-screen .tv-service-menu-button {
+    font-size: 22px;
+    padding: 14px;
+}
+
+html.tv-small-screen .tv-service-content {
+    padding: 16px 20px;
+}
+
+
+/* ==========================================================================
+   07. SERVICE / ACCOUNT: PHONE, BALANCE AND QR
+   ========================================================================== */
+
+.tv-account-phone-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.tv-account-phone-info {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-right: 20px;
+}
+
+.tv-account-logout-button {
+    display: block;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    margin: 0 0 0 auto;
+    padding: 12px 22px;
+    background: #CE6477;
+    color: #ffffff;
+    border: 0;
+    border-radius: 6px;
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tv-account-logout-button:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #10233B;
+}
+
+.tv-account-logout-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.tv-account-balance-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.tv-account-balance-info {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-right: 20px;
+}
+
+.tv-account-topup-button {
+    display: block;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    margin: 0 0 0 auto;
+    padding: 12px 22px;
+    background: #398E78;
+    color: #ffffff;
+    border: 0;
+    border-radius: 6px;
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tv-account-topup-button:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #10233B;
+}
+
+.tv-balance-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.tv-balance-dialog {
+    width: 420px;
+    max-width: 90%;
+    padding: 28px;
+    background: #172B45;
+    border: 1px solid #3A597A;
+    border-radius: 10px;
+    text-align: center;
+    color: #F0F7FF;
+}
+
+.tv-balance-dialog h2 {
+    margin: 0 0 24px;
+    font-size: 30px;
+}
+
+.tv-balance-qr {
+    display: block;
+    width: 300px;
+    height: 300px;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+}
+
+.tv-balance-status {
+    margin: 16px 0;
+    color: #B7CADF;
+    font-size: 22px;
+}
+
+.tv-balance-close {
+    display: block;
+    margin: 24px auto 0;
+    padding: 12px 36px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 0;
+    border-radius: 6px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.tv-balance-close:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   08. SERVICE / ACCOUNT: PACKAGES
+   ========================================================================== */
+
+.tv-account-package-name {
+    color: #F0F7FF;
+}
+
+.tv-account-package-price {
+    margin-left: 20px;
+    color: #B7CADF;
+    font-weight: normal;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.tv-account-package-item {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: baseline;
+    align-items: baseline;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    min-height: 36px;
+    margin: 8px 0;
+    width: 100%;
+}
+
+.tv-account-package-count {
+    display: inline-block;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: 20px;
+    color: #92D2FF;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.tv-account-package-selectable {
+    -webkit-align-items: center;
+    align-items: center;
+    min-height: 48px;
+    padding: 8px 12px;
+    margin: 4px 0;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+}
+
+.tv-account-package-selectable:focus {
+    border-color: #E3F4FF;
+    outline: 2px solid #E3F4FF;
+    outline-offset: 2px;
+    background: #294363;
+}
+
+.tv-account-package-selectable:active {
+    background: #375A80;
+}
+
+.tv-account-package-checkbox {
+    width: 24px;
+    height: 24px;
+    margin: 0 12px 0 0;
+    padding: 0;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: #92D2FF;
+}
+
+.tv-account-package-checkbox:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+}
+
+.tv-account-package-checkbox:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+
+/* ==========================================================================
+   09. SERVICE / ACCOUNT: PAUSE / RESUME
+   ========================================================================== */
+
+.tv-account-status-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.tv-account-status-info {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-right: 20px;
+}
+
+.tv-account-pause-button {
+    display: block;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    margin: 0 0 0 auto;
+    padding: 12px 22px;
+    background: #C89159;
+    color: #ffffff;
+    border: 0;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tv-account-resume-button {
+    background: #398E78;
+}
+
+.tv-account-pause-button:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+}
+
+.tv-account-pause-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+
+/* ==========================================================================
+   10. SERVICE / DEVICES
+   ========================================================================== */
+
+.tv-service-devices-summary {
+    margin: 0 0 24px;
+    color: #B7CADF;
+    font-size: 26px;
+}
+
+.tv-service-devices {
+    width: 100%;
+}
+
+.tv-device-card {
+    padding: 22px 26px;
+    margin-bottom: 18px;
+    background: #213752;
+    border: 1px solid #3A597A;
+    border-radius: 8px;
+}
+
+.tv-device-header {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 18px;
+}
+
+.tv-device-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #F0F7FF;
+    word-wrap: break-word;
+}
+
+.tv-device-current {
+    display: inline-block;
+    margin-left: 18px;
+    padding: 7px 12px;
+    background: #398E78;
+    color: #ffffff;
+    border-radius: 6px;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+.tv-device-number {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    border: 2px solid #92D2FF;
+    border-radius: 50%;
+    background: #294363;
+    color: #F0F7FF;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+}
+
+.tv-device-time-ago {
+    font-style: italic;
+    color: #B7CADF;
+    white-space: nowrap;
+}
+
+.tv-device-login-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding-right: 0;
+}
+
+.tv-device-login-info {
+    -webkit-flex: 1;
+    flex: 1;
+    min-width: 0;
+    padding-right: 20px;
+}
+
+.tv-device-login-row .tv-service-info-value {
+    padding-right: 20px;
+}
+
+.tv-device-delete-button {
+    display: block;
+    margin: 0 0 2px 16px;
+    padding: 12px 22px;
+    background: #CE6477;
+    color: #ffffff;
+    border: 0;
+    border-radius: 6px;
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+}
+
+.tv-device-delete-button:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #10233B;
+}
+
+.tv-device-delete-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.tv-device-card .tv-service-info-row {
+    padding: 10px 0;
+}
+
+.tv-device-card .tv-service-info-label {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.tv-device-card .tv-service-info-value {
+    font-size: 24px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+
+/* ==========================================================================
+   11. SERVICE / SPEED TEST
+   ========================================================================== */
+
+.tv-speed-result {
+    margin-top: 36px;
+    color: #92D2FF;
+    font-size: 96px;
+    font-weight: bold;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.tv-speed-unit {
+    color: #B7CADF;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tv-speed-progress {
+    width: 100%;
+    height: 14px;
+    overflow: hidden;
+    background: #294363;
+    border-radius: 10px;
+}
+
+.tv-speed-progress-bar {
+    width: 0;
+    height: 100%;
+    background: #92D2FF;
+    border-radius: 10px;
+}
+
+.tv-speed-status {
+    margin: 22px 0;
+    color: #B7CADF;
+    font-size: 24px;
+    text-align: center;
+}
+
+.tv-speed-button {
+    display: block;
+    margin: 28px auto;
+    padding: 18px 36px;
+    background: #92D2FF;
+    color: #0C2136;
+    border: 0;
+    border-radius: 8px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+html.tv-small-screen .tv-speed-result {
+    font-size: 64px;
+}
+
+html.tv-small-screen .tv-speed-unit {
+    font-size: 24px;
+}
+
+
+/* ==========================================================================
+   12. SERVICE / EXIT
+   ========================================================================== */
+
+.tv-player-fullscreen .tv-player-fullscreen-button {
+    display: none !important;
+}
+
+.tv-service-exit-actions {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.tv-service-exit-actions .tv-service-restart-button,
+.tv-service-exit-actions .tv-service-exit-button {
+    display: inline-block;
+    margin: 0;
+    padding: 18px 28px;
+    height: 64px;
+    border: 0;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 28px;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tv-service-exit-actions .tv-service-restart-button {
+    background: #488FCB;
+    margin-right: 14px;
+}
+
+.tv-service-exit-actions .tv-service-exit-button {
+    background: #CE6477;
+}
+
+.tv-service-exit-actions button:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   13. PLAYER / LAYOUT AND CHANNELS
+   ========================================================================== */
+
+.tv-player-page {
+    display: -webkit-flex;
+    display: flex;
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    bottom: 24px;
+    left: 32px;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.tv-player-main {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    padding-right: 24px;
+    overflow: hidden;
+}
+
+.tv-player-screen {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: #000;
+}
+
+.tv-player-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #000;
+    display: block;
+}
+
+.tv-channel-name-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+}
+
+.tv-channel-name-row .tv-channel-name {
+    display: block;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.tv-channel-record-dot {
+    display: block;
+    width: 12px;
+    height: 12px;
+    min-width: 12px;
+    min-height: 12px;
+    border-radius: 50%;
+    background-color: #F36C7C;
+    -webkit-flex: 0 0 12px;
+    flex: 0 0 12px;
+    margin-left: auto;
+    margin-right: 12px;
+}
+
+.tv-player-channel-title {
+    margin-top: 20px;
+    font-size: 34px;
+    font-weight: bold;
+    color: #F0F7FF;
+}
+
+.tv-player-status {
+    margin-top: 10px;
+    font-size: 24px;
+    color: #B7CADF;
+}
+
+.tv-player-sidebar {
+    position: relative;
+    width: 650px;
+    min-width: 650px;
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    min-height: 0;
+    padding: 18px;
+    overflow: hidden;
+    background: #172B45;
+    border-radius: 8px;
+}
+
+.tv-channel-heading {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.tv-channel-count {
+    color: #92D2FF;
+}
+
+.tv-channel-list {
+    position: absolute;
+    top: 72px;
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    display: block;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    -webkit-flex: none;
+    flex: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.tv-channel-button {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 0 8px 0;
+    padding: 14px 12px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 0;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 24px;
+}
+
+.tv-channel-number {
+    display: inline-block;
+    width: 46px;
+    min-width: 46px;
+    color: #A6C0D8;
+    font-size: 21px;
+}
+
+.tv-channel-name {
+    -webkit-flex: 1;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tv-channel-playing {
+    background: #375A80;
+    color: #ffffff;
+}
+
+.tv-channel-button:focus {
+    background: #92D2FF;
+    color: #0C2136;
+    outline: 3px solid #E3F4FF;
+    outline-offset: -3px;
+}
+
+.tv-channel-button:focus .tv-channel-number {
+    color: #0C2136;
+}
+
+.tv-player-message {
+    font-size: 24px;
+    color: #B7CADF;
+}
+
+html.tv-small-screen .tv-player-sidebar {
+    width: 400px;
+    min-width: 400px;
+}
+
+html.tv-small-screen .tv-channel-button {
+    font-size: 20px;
+    padding: 10px;
+}
+
+.tv-channel-logo {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 54px;
+    min-width: 54px;
+    height: 42px;
+    margin-right: 14px;
+}
+
+.tv-channel-logo img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.tv-channel-details {
+    display: block;
+    -webkit-flex: 1 1 0%;
+    flex: 1 1 0%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tv-channel-details .tv-channel-name {
+    display: block;
+    width: 100%;
+}
+
+.tv-channel-programme {
+    display: block;
+    width: 100%;
+    color: #C0D9EE;
+    font-size: 0.85em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tv-channel-epg-progress {
+    display: block;
+    width: 100%;
+    height: 4px;
+    margin-top: 7px;
+    background: #57728F;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.tv-channel-epg-progress-bar {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: #92D2FF;
+}
+
+.tv-channel-playing .tv-channel-programme {
+    color: #E5F5FF;
+}
+
+.tv-channel-button:focus .tv-channel-programme {
+    color: #264767;
+}
+
+.tv-channel-button:focus .tv-channel-epg-progress {
+    background: #9BCAE8;
+}
+
+.tv-channel-button:focus .tv-channel-epg-progress-bar {
+    background: #214B71;
+}
+
+
+/* ==========================================================================
+   14. SHARED LOADER / SPINNER
+   ========================================================================== */
+
+.tv-loader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.65);
+    pointer-events: none;
+}
+
+.tv-loader-spinner {
+    width: 64px;
+    height: 64px;
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #92D2FF;
+    border-radius: 50%;
+    -webkit-animation: tv-loader-spin 0.9s linear infinite;
+    animation: tv-loader-spin 0.9s linear infinite;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.tv-loader-text {
+    margin-top: 24px;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}
+
+@-webkit-keyframes tv-loader-spin {
+    from { -webkit-transform: rotate(0deg); }
+    to   { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes tv-loader-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+html.tv-small-screen .tv-loader-spinner {
+    width: 48px;
+    height: 48px;
+    border-width: 5px;
+}
+
+html.tv-small-screen .tv-loader-text {
+    font-size: 22px;
+}
+
+
+/* ==========================================================================
+   15. PLAYER / EPG DETAILS
+   ========================================================================== */
+
+.tv-player-info {
+    position: relative;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+    background: #122236;
+    color: #fff;
+}
+
+.tv-player-programme-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.85;
+}
+
+.tv-player-info-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: -webkit-linear-gradient(
+        top,
+        rgba(0, 0, 0, 0.80) 0%,
+        rgba(0, 0, 0, 0.55) 45%,
+        rgba(0, 0, 0, 0.15) 100%
+    );
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.80) 0%,
+        rgba(0, 0, 0, 0.55) 45%,
+        rgba(0, 0, 0, 0.15) 100%
+    );
+}
+
+.tv-player-info-content {
+    position: relative;
+    z-index: 1;
+    padding: 24px 28px;
+}
+
+.tv-player-info .tv-player-channel-title {
+    margin: 0 0 16px 0;
+    padding: 0;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1.3;
+    color: #fff;
+    text-shadow: 0 2px 5px #000;
+}
+
+.tv-player-programme-description {
+    font-size: 22px;
+    line-height: 1.5;
+    color: #fff;
+    white-space: normal;
+    overflow-wrap: break-word;
+    max-height: 220px;
+    overflow: hidden;
+    text-shadow: 0 2px 5px #000;
+}
+
+.tv-player-info .tv-player-status {
+    font-size: 16px;
+    margin-top: 14px;
+    color: #eee;
+}
+
+@media (max-height: 700px) {
+    .tv-player-info-content {
+        padding: 14px 18px;
+    }
+
+    .tv-player-info .tv-player-channel-title {
+        font-size: 23px;
+        margin-bottom: 8px;
+    }
+
+    .tv-player-programme-description {
+        font-size: 17px;
+        max-height: 140px;
+    }
+}
+
+
+/* ==========================================================================
+   16. PLAYER / FULLSCREEN
+   ========================================================================== */
+
+.tv-player-fullscreen-button {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    z-index: 100;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.60);
+    color: #fff;
+    font-size: 32px;
+    line-height: 48px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.tv-player-fullscreen-button:focus,
+.tv-player-fullscreen-button:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: #fff;
+    outline: none;
+}
+
+.tv-player-screen.tv-player-fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 99999 !important;
+    overflow: hidden !important;
+    background: #000;
+}
+
+.tv-player-fullscreen .tv-player-video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: contain;
+    background: #000;
+}
+
+
+/* ==========================================================================
+   17. FAVORITES
+   ========================================================================== */
+
+.tv-favorites-page {
+    width: 100%;
+    padding-bottom: 30px;
+}
+
+.tv-favorites-page h1 {
+    margin: 0 0 24px;
+    font-size: 36px;
+}
+
+.tv-favorites-toggle {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    padding: 18px 24px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 2px solid #577898;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.tv-favorites-toggle-active {
+    background: #375A80;
+    border-color: #92D2FF;
+}
+
+.tv-favorites-toggle-check,
+.tv-favorites-check {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    border: 2px solid #B7CADF;
+    border-radius: 5px;
+    font-weight: bold;
+    line-height: 1;
+    background: #172B45;
+    color: #fff;
+}
+
+.tv-favorites-toggle-check {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    margin-right: 18px;
+    font-size: 25px;
+}
+
+.tv-favorites-toggle-active .tv-favorites-toggle-check,
+.tv-favorites-selected .tv-favorites-check {
+    background: #398E78;
+    border-color: #398E78;
+}
+
+.tv-favorites-hint {
+    margin: 18px 0 10px;
+    font-size: 24px;
+    line-height: 1.4;
+    color: #B7CADF;
+}
+
+.tv-favorites-counter {
+    margin: 20px 0;
+    font-size: 26px;
+    font-weight: bold;
+    color: #92D2FF;
+}
+
+.tv-favorites-group {
+    margin-bottom: 14px;
+    overflow: hidden;
+    background: #172B45;
+    border-radius: 8px;
+}
+
+.tv-favorites-group-title {
+    padding: 10px 16px;
+    background: #213752;
+    color: #92D2FF;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.tv-favorites-group-items {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 6px;
+}
+
+.tv-favorites-channel {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: calc(33.333% - 8px);
+    margin: 4px;
+    padding: 8px 12px;
+    min-height: 54px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.tv-favorites-selected {
+    border-color: #398E78;
+    background: #244E67;
+}
+
+.tv-favorites-logo {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 42px;
+    min-width: 42px;
+    height: 34px;
+    margin-right: 10px;
+}
+
+.tv-favorites-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.tv-favorites-channel-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tv-favorites-toggle:focus,
+.tv-favorites-channel:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 2px;
+}
+
+html.tv-small-screen .tv-favorites-channel {
+    width: calc(50% - 8px);
+    padding: 6px 10px;
+    min-height: 48px;
+    font-size: 21px;
+}
+
+html.tv-small-screen .tv-favorites-toggle {
+    font-size: 23px;
+}
+
+.tv-favorites-check {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    margin-right: 10px;
+    font-size: 21px;
+}
+
+
+/* ==========================================================================
+   18. ARCHIVE / PROGRAMME LIST
+   ========================================================================== */
+
+.tv-archive-panel {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.tv-archive-list {
+    position: relative;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.tv-archive-date {
+    margin: 14px 0 8px;
+    padding: 10px 12px;
+    background: #213752;
+    color: #92D2FF;
+    border-radius: 5px;
+    font-size: 23px;
+    font-weight: bold;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.tv-archive-programme {
+    display: block;
+    width: 100%;
+    margin: 0 0 4px;
+    padding: 8px 10px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 0;
+    border-radius: 5px;
+    font-size: 21px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.tv-archive-programme-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    min-width: 0;
+}
+
+.tv-archive-programme-time {
+    display: block;
+    width: 62px;
+    min-width: 62px;
+    color: #92D2FF;
+    font-size: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tv-archive-programme-timer {
+    font-size: 18px;
+}
+
+.tv-archive-programme-title {
+    display: block;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 19px;
+    font-weight: normal;
+}
+
+.tv-archive-programme:focus {
+    background: #92D2FF;
+    color: #0C2136;
+    outline: 3px solid #E3F4FF;
+    outline-offset: -3px;
+}
+
+.tv-archive-programme:focus .tv-archive-programme-time {
+    color: #264767;
+}
+
+.tv-archive-heading {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding-bottom: 12px;
+}
+
+.tv-archive-heading-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.tv-archive-period {
+    display: inline-block;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    margin-left: 12px;
+    padding: 6px 12px;
+    background: #CE6477;
+    color: #ffffff;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tv-archive-programme-description {
+    display: none;
+    margin: 8px 0 2px 62px;
+    padding: 0;
+    color: #C0D9EE;
+    font-size: 17px;
+    font-weight: normal;
+    line-height: 1.4;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.tv-archive-programme-expanded
+.tv-archive-programme-description {
+    display: block;
+}
+
+.tv-archive-programme-expanded:focus
+.tv-archive-programme-description {
+    color: #264767;
+}
+
+html.tv-small-screen
+.tv-archive-programme-description {
+    margin-left: 54px;
+    font-size: 15px;
+}
+
+html.tv-small-screen .tv-archive-heading-title {
+    font-size: 22px;
+}
+
+html.tv-small-screen .tv-archive-period {
+    padding: 5px 8px;
+    font-size: 15px;
+}
+
+html.tv-small-screen .tv-archive-heading {
+    font-size: 23px;
+}
+
+html.tv-small-screen .tv-archive-programme {
+    padding: 6px 8px;
+}
+
+html.tv-small-screen .tv-archive-programme-time {
+    width: 54px;
+    min-width: 54px;
+    font-size: 16px;
+}
+
+html.tv-small-screen .tv-archive-programme-title {
+    font-size: 17px;
+}
+
+
+/* ==========================================================================
+   19. SEARCH
+   ========================================================================== */
+
+.tv-search-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 28px;
+    color: #fff;
+}
+
+.tv-search-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.tv-search-hint {
+    font-size: 14px;
+    color: #B7CADF;
+    margin: 0 0 22px;
+}
+
+.tv-search-form {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 0 20px;
+}
+
+.tv-search-input,
+.tv-search-select {
+    min-width: 150px;
+    border: 1px solid #435F80;
+    border-radius: 9px;
+    background: #1C304B;
+    color: #fff;
+    font-size: 17px;
+    padding: 13px 14px;
+    margin: 0 12px 12px 0;
+}
+
+.tv-search-input {
+    -webkit-flex: 3 1 250px;
+    flex: 3 1 250px;
+}
+
+.tv-search-select {
+    -webkit-flex: 1 1 180px;
+    flex: 1 1 180px;
+}
+
+.tv-search-submit {
+    padding: 12px 23px;
+    margin: 0 0 12px 0;
+    border: 0;
+    border-radius: 9px;
+    background: #CE6477;
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tv-search-status {
+    min-height: 24px;
+    color: #B7CADF;
+    margin: 0 0 10px;
+}
+
+.tv-search-list {
+    display: block;
+}
+
+.tv-search-result {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    width: 100%;
+    border: 1px solid #435F80;
+    border-radius: 11px;
+    background: #1C304B;
+    color: #fff;
+    padding: 15px 18px;
+    margin: 0 0 9px;
+    cursor: pointer;
+}
+
+.tv-search-result-poster {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: .22;
+    pointer-events: none;
+}
+
+.tv-search-result-layout {
+    display: block;
+    position: relative;
+    z-index: 1;
+    min-height: 100px;
+}
+
+.tv-search-result-content {
+    display: block;
+    min-width: 0;
+}
+
+.tv-search-result-has-logo .tv-search-result-content {
+    margin-right: 118px;
+}
+
+.tv-search-result-channel-logo-box {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.tv-search-result-channel-logo {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    max-width: 100px;
+    max-height: 100px;
+    border: 0;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.tv-search-result:focus,
+.tv-search-result:hover {
+    outline: 2px solid #DA5E72;
+    outline-offset: 1px;
+    background: #294363;
+}
+
+.tv-search-result-title {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.tv-search-result-meta {
+    display: block;
+    font-size: 17px;
+}
+
+.tv-search-result-date,
+.tv-search-result-duration {
+    display: inline-block;
+    margin: 0 12px 4px 0;
+}
+
+.tv-search-result-date {
+    color: #7DD9AD;
+}
+
+.tv-search-result-duration {
+    color: #EC7888;
+}
+
+.tv-search-highlight {
+    background: #FFE2A3;
+    color: #11263C;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 0 2px;
+}
+
+.tv-search-result-description {
+    display: block;
+    margin-top: 8px;
+    color: #9CB6CE;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.tv-search-input:focus,
+.tv-search-select:focus,
+.tv-search-submit:focus {
+    outline: 2px solid #DA5E72;
+    outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+    .tv-search-page { padding: 16px; }
+    .tv-search-title { font-size: 23px; }
+}
+
+
+
+
+
+.tv-player-reload-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 24px;
+    min-height: 44px;
+    border: 0;
+    border-radius: 6px;
+    background: #488FCB;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tv-player-reload-button:focus {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.tv-player-reload-button:hover {
+    background: #488FCB;
+}
+
+
+
+
+/* Детализация баланса */
+
+.tv-transactions-dialog {
+    width: 90%;
+    max-width: 680px;
+    box-sizing: border-box;
+}
+
+.tv-transactions-list {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin: 10px 0;
+}
+
+/* Одна операция — одна горизонтальная строка */
+
+.tv-transaction-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    font-style: Arial, sans-serif;
+    font-size: 21px;
+    font-weight: normal;
+    line-height: 1.4;
+}
+
+.tv-transaction-date {
+    width: 32%;
+    flex-shrink: 0;
+    opacity: 1;
+    margin: 0;
+    text-align: left;
+}
+
+.tv-transaction-name {
+    flex: 1;
+    -webkit-flex: 1;
+    text-align: left;
+    margin: 0;
+}
+
+.tv-transaction-amount {
+    width: 90px;
+    flex-shrink: 0;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    margin: 0;
+}
+
+/* Цвета остаются прежними */
+
+.tv-transaction-positive {
+    color: #7DD9AD;
+}
+
+.tv-transaction-negative {
+    color: #FFABB3;
+}
+
+.tv-transaction-positive {
+    color: #7DD9AD;
+}
+
+.tv-transaction-negative {
+    color: #FFABB3;
+}
+
+/* Кнопка «Детализация» — стандартный стиль TV UI */
+.tv-account-transactions-button {
+    display: block;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    margin: 0 0 0 10px;
+    padding: 12px 22px;
+    background: #294363;
+    color: #F0F7FF;
+    border: 0;
+    border-radius: 6px;
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tv-account-transactions-button:focus {
+    outline: 3px solid #E3F4FF;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px #10233B;
+}
+
+
+
+@media (max-width: 600px) {
+    .tv-transactions-dialog {
+        width: 95%;
+    }
+
+    .tv-transaction-row {
+        gap: 8px;
+    }
+
+    .tv-transaction-amount {
+        font-size: 1em;
+    }
+}
+
+
+
+/* Copyright — нижняя часть личного кабинета */
+
+.tv-service {
+    position: relative;
+}
+
+.tv-service-account-active .tv-service-content {
+    padding-bottom: 75px;
+}
+
+.tv-account-copyright.tv-account-package-price {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    z-index: 5;
+
+    width: auto;
+    margin: 0;
+    padding: 8px 16px;
+
+    font-family: Arial, sans-serif;
+    font-size: 23px;
+    font-weight: normal;
+    line-height: 1.4;
+    text-align: center;
+    white-space: normal;
+
+    pointer-events: none;
+}
+
+.tv-account-copyright b {
+    font-weight: bold;
+}
+
+html.tv-small-screen .tv-account-copyright {
+    font-size: 19px;
+}
+
+
+.tv-login-copyright {
+    margin: 18px auto 0;
+    max-width: 600px;
+    padding: 0 16px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    white-space: pre-line;
+}
