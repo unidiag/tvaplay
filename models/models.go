@@ -1,0 +1,24 @@
+package models
+
+var AllModels = []any{
+	&Setting{},
+	&User{},
+	&UserRefreshToken{},
+
+	&EPGChannel{},
+	&EPGProgramme{},
+
+	&Channel{},
+	&Package{},
+	&ChannelPackage{},
+	&UserPackage{},
+
+	&BalanceTransaction{},
+	&Storage{},
+	&StorageMetric{},
+
+	&ViewStat{},
+
+	&Message{},
+	&MessageRecipient{},
+}

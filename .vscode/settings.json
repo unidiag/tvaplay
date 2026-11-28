@@ -1,0 +1,6 @@
+{
+  "js/ts.preferences.autoImportFileExcludePatterns": [
+    "**/theme/overrides/**"
+  ],
+  "js/ts.preferences.importModuleSpecifier": "non-relative"
+}
